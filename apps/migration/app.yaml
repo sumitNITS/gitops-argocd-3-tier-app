@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: migration
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sumitNITS/3-tier-app.git
+    targetRevision: main
+    path: k8s/migration
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: three-tier-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
